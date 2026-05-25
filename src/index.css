@@ -1,0 +1,283 @@
+@import "tailwindcss";
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+:root {
+  /* Dark theme variables (default) */
+  --bg-gradient: radial-gradient(circle at top right, #111827, #070a13);
+  --text-primary: #f3f4f6;
+  --glass-panel-bg: rgba(16, 22, 37, 0.45);
+  --glass-card-bg: rgba(22, 30, 49, 0.35);
+  --glass-input-bg: rgba(11, 15, 25, 0.5);
+  --border-purple-val: rgba(99, 102, 241, 0.12);
+  --border-light-val: rgba(255, 255, 255, 0.04);
+  --card-hover-bg: rgba(22, 30, 49, 0.55);
+  --card-hover-border: rgba(99, 102, 241, 0.3);
+  --shadow-color: rgba(0, 0, 0, 0.3);
+  --scroll-track: #090d16;
+}
+
+:root.light {
+  /* Light theme variables */
+  --bg-gradient: radial-gradient(circle at top right, #f8fafc, #f1f5f9);
+  --text-primary: #1e293b;
+  --glass-panel-bg: rgba(255, 255, 255, 0.7);
+  --glass-card-bg: rgba(255, 255, 255, 0.6);
+  --glass-input-bg: rgba(255, 255, 255, 0.85);
+  --border-purple-val: rgba(99, 102, 241, 0.16);
+  --border-light-val: rgba(0, 0, 0, 0.06);
+  --card-hover-bg: rgba(255, 255, 255, 0.85);
+  --card-hover-border: rgba(99, 102, 241, 0.35);
+  --shadow-color: rgba(99, 102, 241, 0.04);
+  --scroll-track: #f1f5f9;
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  background: var(--bg-gradient);
+  color: var(--text-primary);
+  min-height: 100vh;
+  overflow-x: hidden;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--scroll-track);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(99, 102, 241, 0.25);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(99, 102, 241, 0.5);
+}
+
+/* Glassmorphism custom classes */
+.glass-panel {
+  background: var(--glass-panel-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border-purple-val);
+  transition: background 0.3s ease, border-color 0.3s ease;
+}
+
+.glass-card {
+  background: var(--glass-card-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border-light-val);
+  transition: background 0.3s ease, border-color 0.3s ease;
+}
+
+.glass-card-hover {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-card-hover:hover {
+  background: var(--card-hover-bg);
+  border-color: var(--card-hover-border);
+  box-shadow: 0 10px 25px -5px var(--shadow-color), 0 8px 10px -6px rgba(99, 102, 241, 0.1);
+  transform: translateY(-2px);
+}
+
+.glass-input {
+  background: var(--glass-input-bg);
+  border: 1px solid var(--border-purple-val);
+  color: var(--text-primary);
+  transition: all 0.25s ease-in-out;
+}
+
+.glass-input:focus {
+  border-color: rgba(99, 102, 241, 0.5);
+  outline: none;
+  box-shadow: 0 0 12px rgba(99, 102, 241, 0.2);
+  background: var(--glass-input-bg);
+}
+
+/* Checkbox customizations */
+.custom-checkbox {
+  appearance: none;
+  background-color: rgba(11, 15, 25, 0.5);
+  border: 1px solid rgba(99, 102, 241, 0.3);
+  width: 1.25rem;
+  height: 1.25rem;
+  border-radius: 0.375rem;
+  display: inline-grid;
+  place-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.custom-checkbox:checked {
+  background-color: #6366f1;
+  border-color: #6366f1;
+}
+
+.custom-checkbox::before {
+  content: "";
+  width: 0.65em;
+  height: 0.65em;
+  transform: scale(0);
+  transition: 120ms transform ease-in-out;
+  box-shadow: inset 1em 1em white;
+  transform-origin: bottom left;
+  clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+}
+
+.custom-checkbox:checked::before {
+  transform: scale(1);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-out forwards;
+}
+
+/* ==========================================
+   Light Theme Utility Overrides
+   ========================================== */
+.light {
+  color-scheme: light;
+}
+
+.light .text-white {
+  color: #0f172a !important;
+}
+
+.light .text-gray-100 {
+  color: #1e293b !important;
+}
+
+.light .text-gray-200 {
+  color: #334155 !important;
+}
+
+.light .text-gray-300 {
+  color: #475569 !important;
+}
+
+.light .text-gray-400 {
+  color: #475569 !important;
+}
+
+.light .text-gray-500 {
+  color: #64748b !important;
+}
+
+.light .border-gray-800 {
+  border-color: #e2e8f0 !important;
+}
+
+.light .border-gray-800\/80 {
+  border-color: rgba(0, 0, 0, 0.08) !important;
+}
+
+.light .border-gray-850 {
+  border-color: #e2e8f0 !important;
+}
+
+.light .border-borderPurple\/20 {
+  border-color: rgba(99, 102, 241, 0.2) !important;
+}
+
+.light .border-borderPurple\/30 {
+  border-color: rgba(99, 102, 241, 0.25) !important;
+}
+
+.light .border-borderPurple\/45 {
+  border-color: rgba(99, 102, 241, 0.2) !important;
+}
+
+.light .bg-gray-950\/15 {
+  background-color: rgba(0, 0, 0, 0.02) !important;
+}
+
+.light .bg-gray-900\/40 {
+  background-color: rgba(255, 255, 255, 0.8) !important;
+}
+
+.light .bg-indigo-950\/20 {
+  background-color: rgba(99, 102, 241, 0.05) !important;
+}
+
+.light .bg-purple-950\/20 {
+  background-color: rgba(147, 51, 234, 0.02) !important;
+}
+
+/* Ensure buttons and badges preserve contrast */
+.light .bg-gradient-to-r,
+.light .bg-indigo-600,
+.light .bg-red-500,
+.light .bg-green-500,
+.light .bg-yellow-500,
+.light .custom-checkbox:checked,
+.light .bg-gradient-to-tr {
+  color: #ffffff !important;
+}
+
+.light .bg-gradient-to-r *,
+.light .bg-indigo-600 *,
+.light .bg-gradient-to-tr * {
+  color: #ffffff !important;
+}
+
+.light .text-red-400 {
+  color: #ef4444 !important;
+}
+
+.light .text-yellow-400 {
+  color: #ca8a04 !important;
+}
+
+.light .text-green-400 {
+  color: #16a34a !important;
+}
+
+.light .text-indigo-400 {
+  color: #4f46e5 !important;
+}
+
+.light .text-indigo-300 {
+  color: #4f46e5 !important;
+}
+
+.light .text-purple-400 {
+  color: #7c3aed !important;
+}
+
+.light .bg-indigo-500\/15 {
+  background-color: rgba(99, 102, 241, 0.12) !important;
+}
+
+.light .bg-yellow-500\/15 {
+  background-color: rgba(234, 179, 8, 0.12) !important;
+}
+
+.light .bg-green-500\/15 {
+  background-color: rgba(34, 197, 94, 0.12) !important;
+}
+
+.light .bg-red-500\/15 {
+  background-color: rgba(239, 68, 68, 0.12) !important;
+}
+
+.light .bg-gradient-to-r.from-indigo-600\/30 {
+  background: rgba(99, 102, 241, 0.1) !important;
+}
