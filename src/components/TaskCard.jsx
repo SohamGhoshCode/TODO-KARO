@@ -9,123 +9,118 @@ export default function TaskCard({
   onRestore, 
   isTrashView
 }) {
-  const getPriorityBadge = (priority) => {
+  const getPriorityStyle = (priority) => {
     switch (priority?.toLowerCase()) {
-      case 'high':
-        return 'bg-red-500/10 text-red-400 border-red-500/20';
-      case 'medium':
-        return 'bg-yellow-500/10 text-yellow-400 border-yellow-500/20';
-      case 'low':
-        return 'bg-green-500/10 text-green-400 border-green-500/20';
-      default:
-        return 'bg-gray-500/10 text-gray-400 border-gray-500/20';
+      case 'high':   return { badge: 'bg-red-50 text-red-600 border-red-200',     bar: 'bg-red-400' };
+      case 'medium': return { badge: 'bg-amber-50 text-amber-600 border-amber-200', bar: 'bg-amber-400' };
+      case 'low':    return { badge: 'bg-emerald-50 text-emerald-600 border-emerald-200', bar: 'bg-emerald-400' };
+      default:       return { badge: 'bg-gray-50 text-gray-500 border-gray-200',   bar: 'bg-gray-300' };
     }
   };
 
   const formatDate = (dateStr) => {
     if (!dateStr) return 'No due date';
-    const date = new Date(dateStr);
-    return date.toLocaleDateString('en-GB', {
-      day: 'numeric',
-      month: 'short',
-      year: 'numeric'
-    });
+    return new Date(dateStr).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
   };
 
+  const style = getPriorityStyle(task.priority);
+
   return (
-    <div className={`glass-card border border-gray-800/80 rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4 transition-all duration-300 ${
+    <div className={`bg-white rounded-xl border shadow-sm flex items-stretch gap-0 overflow-hidden transition-all duration-200 hover:shadow-md hover:-translate-y-0.5 animate-fade-in ${
       task.completed ? 'opacity-60' : ''
-    } hover:border-indigo-500/20 animate-fade-in`}>
-      <div className="flex items-center gap-4 flex-1 min-w-0">
-        {/* Custom status Checkbox */}
-        {!isTrashView ? (
-          <input
-            type="checkbox"
-            checked={task.completed}
-            onChange={() => onToggleComplete(task.id)}
-            className="custom-checkbox shrink-0"
-            title={task.completed ? "Mark incomplete" : "Mark complete"}
-          />
-        ) : (
-          <div className="w-5 h-5 rounded-md border border-gray-800 bg-gray-900/50 flex items-center justify-center shrink-0">
-            <FaTrashAlt className="text-gray-600 text-xs" />
-          </div>
-        )}
+    } border-gray-100`}>
+      {/* Left priority bar */}
+      <div className={`w-1 shrink-0 ${style.bar}`}></div>
 
-        {/* Task Details */}
-        <div className="min-w-0 flex-1">
-          <h4 className={`text-sm font-semibold text-white tracking-wide truncate ${
-            task.completed ? 'line-through text-gray-500 font-medium' : ''
-          }`}>
-            {task.title}
-          </h4>
-          
-          <div className="flex items-center gap-2 mt-1.5 flex-wrap">
-            <span className={`text-[9px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wider border ${getPriorityBadge(task.priority)}`}>
-              {task.priority}
-            </span>
-            {task.description && (
-              <span className="text-[11px] text-gray-500 truncate max-w-xs sm:max-w-md font-medium">
-                • {task.description}
-              </span>
-            )}
-          </div>
-        </div>
-      </div>
-
-      {/* Due Date & Action Toolbar */}
-      <div className="flex items-center justify-between sm:justify-end gap-5 shrink-0 border-t border-gray-800/40 sm:border-0 pt-3 sm:pt-0">
-        {/* Due Date Display */}
-        <div className="flex items-center gap-2 text-gray-400 text-xs font-semibold">
-          <FaCalendarAlt className="text-gray-500 text-xs" />
-          <span>{formatDate(task.dueDate)}</span>
-        </div>
-
-        {/* Toolbar Buttons */}
-        <div className="flex items-center gap-1.5">
+      {/* Card body */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 flex-1 p-4 pl-4">
+        {/* Left: Checkbox + details */}
+        <div className="flex items-center gap-3 flex-1 min-w-0">
           {!isTrashView ? (
-            <>
-              {/* Checkmark Complete Button */}
-              <button
-                onClick={() => onToggleComplete(task.id)}
-                className={`p-2 rounded-xl transition-all border ${
-                  task.completed 
-                    ? 'bg-green-500/10 border-green-500/20 text-green-400' 
-                    : 'bg-gray-900/40 border-gray-800 text-gray-500 hover:text-green-400 hover:border-green-500/25 hover:bg-green-500/5'
-                }`}
-                title={task.completed ? "Mark incomplete" : "Mark complete"}
-              >
-                <FaCheck className="text-[10px]" />
-              </button>
-
-              {/* Edit Pencil Button */}
-              <button
-                onClick={() => onEdit(task)}
-                className="p-2 rounded-xl bg-gray-900/40 border border-gray-800 text-gray-500 hover:text-yellow-400 hover:border-yellow-500/25 hover:bg-yellow-500/5 transition-all"
-                title="Edit task"
-              >
-                <FaEdit className="text-[10px]" />
-              </button>
-            </>
+            <input
+              type="checkbox"
+              checked={task.completed}
+              onChange={() => onToggleComplete(task.id)}
+              className="custom-checkbox shrink-0"
+              title={task.completed ? 'Mark incomplete' : 'Mark complete'}
+            />
           ) : (
-            // Restore LIFO Button
-            <button
-              onClick={() => onRestore(task.id)}
-              className="p-2 rounded-xl bg-gray-900/40 border border-gray-800 text-gray-500 hover:text-indigo-400 hover:border-indigo-500/25 hover:bg-indigo-500/5 transition-all"
-              title="Restore task"
-            >
-              <FaUndo className="text-[10px]" />
-            </button>
+            <div className="w-5 h-5 rounded-lg border border-gray-200 bg-gray-50 flex items-center justify-center shrink-0">
+              <FaTrashAlt className="text-gray-400 text-[9px]" />
+            </div>
           )}
 
-          {/* Delete Trash Button */}
-          <button
-            onClick={() => onDelete(task.id)}
-            className="p-2 rounded-xl bg-gray-900/40 border border-gray-800 text-gray-500 hover:text-red-400 hover:border-red-500/25 hover:bg-red-500/5 transition-all"
-            title={isTrashView ? "Delete permanently" : "Delete task"}
-          >
-            <FaTrashAlt className="text-[10px]" />
-          </button>
+          <div className="min-w-0 flex-1">
+            <h4 className={`text-sm font-semibold text-gray-800 truncate ${task.completed ? 'line-through text-gray-400' : ''}`}>
+              {task.title}
+            </h4>
+            <div className="flex items-center gap-2 mt-1 flex-wrap">
+              <span className={`text-[9px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wide border ${style.badge}`}>
+                {task.priority}
+              </span>
+              {task.description && (
+                <span className="text-[11px] text-gray-400 truncate max-w-xs font-medium">
+                  · {task.description}
+                </span>
+              )}
+            </div>
+          </div>
+        </div>
+
+        {/* Right: Date + Action buttons */}
+        <div className="flex items-center justify-between sm:justify-end gap-4 shrink-0 border-t border-gray-50 sm:border-0 pt-3 sm:pt-0">
+          {/* Due date */}
+          <div className="flex items-center gap-1.5 text-gray-400 text-xs font-medium">
+            <FaCalendarAlt className="text-[10px] text-gray-300" />
+            <span>{formatDate(task.dueDate)}</span>
+          </div>
+
+          {/* Actions */}
+          <div className="flex items-center gap-1">
+            {!isTrashView ? (
+              <>
+                {/* Complete toggle */}
+                <button
+                  onClick={() => onToggleComplete(task.id)}
+                  className={`p-2 rounded-lg transition-all border text-xs ${
+                    task.completed
+                      ? 'bg-emerald-50 border-emerald-200 text-emerald-500'
+                      : 'bg-gray-50 border-gray-200 text-gray-400 hover:bg-emerald-50 hover:border-emerald-200 hover:text-emerald-500'
+                  }`}
+                  title={task.completed ? 'Mark incomplete' : 'Mark complete'}
+                >
+                  <FaCheck className="text-[10px]" />
+                </button>
+
+                {/* Edit */}
+                <button
+                  onClick={() => onEdit(task)}
+                  className="p-2 rounded-lg bg-gray-50 border border-gray-200 text-gray-400 hover:bg-amber-50 hover:border-amber-200 hover:text-amber-500 transition-all text-xs"
+                  title="Edit task"
+                >
+                  <FaEdit className="text-[10px]" />
+                </button>
+              </>
+            ) : (
+              /* Restore */
+              <button
+                onClick={() => onRestore(task.id)}
+                className="p-2 rounded-lg bg-gray-50 border border-gray-200 text-gray-400 hover:bg-indigo-50 hover:border-indigo-200 hover:text-indigo-500 transition-all text-xs"
+                title="Restore task"
+              >
+                <FaUndo className="text-[10px]" />
+              </button>
+            )}
+
+            {/* Delete */}
+            <button
+              onClick={() => onDelete(task.id)}
+              className="p-2 rounded-lg bg-gray-50 border border-gray-200 text-gray-400 hover:bg-red-50 hover:border-red-200 hover:text-red-500 transition-all text-xs"
+              title={isTrashView ? 'Delete permanently' : 'Delete task'}
+            >
+              <FaTrashAlt className="text-[10px]" />
+            </button>
+          </div>
         </div>
       </div>
     </div>

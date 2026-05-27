@@ -20,7 +20,7 @@ export default function Home() {
   const [sortOption, setSortOption] = useState('priority');
   const [sortDirection, setSortDirection] = useState('asc');
   const [editingTask, setEditingTask] = useState(null);
-  const [theme, setTheme] = useState(() => localStorage.getItem('theme') || 'dark');
+  const [theme, setTheme] = useState(() => localStorage.getItem('theme') || 'light');
   
   // Mobile menu visibility
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -231,7 +231,7 @@ export default function Home() {
   }, [tasks, trashTasks, selectedFilter, searchQuery, sortOption, sortDirection]);
 
   return (
-    <div className="flex min-h-screen bg-darkBg text-gray-200">
+    <div className="flex min-h-screen bg-slate-50 text-gray-800">
       {/* Desktop Sidebar (Left Panel) */}
       <Sidebar 
         selectedFilter={selectedFilter} 
@@ -243,13 +243,13 @@ export default function Home() {
       {mobileMenuOpen && (
         <div className="fixed inset-0 z-50 flex md:hidden">
           <div 
-            className="fixed inset-0 bg-black/75 backdrop-blur-xs transition-opacity duration-300"
+            className="fixed inset-0 bg-slate-900/60 backdrop-blur-xs transition-opacity duration-300"
             onClick={() => setMobileMenuOpen(false)}
           />
-          <div className="relative flex flex-col w-80 h-full bg-darkBg border-r border-borderPurple/50 p-6 animate-fade-in shadow-2xl">
+          <div className="relative flex flex-col w-80 h-full bg-white border-r border-gray-100 p-6 animate-fade-in shadow-2xl">
             <button 
               onClick={() => setMobileMenuOpen(false)}
-              className="absolute top-5 right-5 p-2 text-gray-500 hover:text-white transition-colors"
+              className="absolute top-5 right-5 p-2 text-gray-400 hover:text-indigo-600 transition-colors"
               title="Close Menu"
             >
               <FaTimes className="text-base" />
@@ -287,31 +287,31 @@ export default function Home() {
           
           {/* LIFO Undo toast banner */}
           {undoSize > 0 && (
-            <div className="glass-panel border-indigo-500/20 bg-gradient-to-r from-indigo-950/20 to-purple-950/15 rounded-2xl p-4 flex items-center justify-between gap-4 shadow-lg animate-fade-in border">
+            <div className="bg-gradient-to-r from-indigo-50 to-indigo-100/50 border border-indigo-100 rounded-2xl p-4 flex items-center justify-between gap-4 shadow-sm animate-fade-in">
               <div className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-lg bg-indigo-500/10 flex items-center justify-center text-indigo-400">
+                <div className="w-8 h-8 rounded-lg bg-indigo-100 flex items-center justify-center text-indigo-600">
                   <FaUndo className="text-xs" />
                 </div>
                 <div>
-                  <p className="text-xs font-bold text-gray-200">
+                  <p className="text-xs font-extrabold text-indigo-900">
                     Task deleted successfully.
                   </p>
-                  <p className="text-[10px] text-gray-400 font-bold uppercase tracking-wider mt-0.5">
-                    Undo stack size: <span className="text-indigo-400 font-extrabold">{undoSize}</span> task{undoSize > 1 ? 's' : ''}
+                  <p className="text-[9px] text-indigo-500 font-bold uppercase tracking-widest mt-0.5">
+                    Undo stack size: <span className="text-indigo-700 font-extrabold">{undoSize}</span> task{undoSize > 1 ? 's' : ''}
                   </p>
                 </div>
               </div>
               <div className="flex items-center gap-2">
                 <button
                   onClick={handleUndoDelete}
-                  className="px-3.5 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-[11px] uppercase tracking-wider rounded-lg shadow-md transition-colors flex items-center gap-1.5"
+                  className="px-3.5 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white font-extrabold text-[10px] uppercase tracking-widest rounded-lg shadow-md transition-colors flex items-center gap-1.5"
                 >
                   <FaUndo className="text-[9px]" />
                   <span>Undo</span>
                 </button>
                 <button
                   onClick={handleClearUndoStack}
-                  className="p-1.5 text-gray-500 hover:text-gray-300 transition-colors"
+                  className="p-1.5 text-indigo-400 hover:text-indigo-600 transition-colors"
                   title="Clear undo memory"
                 >
                   <FaTimes className="text-[10px]" />

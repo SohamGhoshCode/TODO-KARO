@@ -20,48 +20,53 @@ export default function Navbar({
       case 'medium': return 'Medium Priority Tasks';
       case 'low': return 'Low Priority Tasks';
       case 'trash': return 'Trash Bin';
-      default: return 'Smart Todo Manager';
+      default: return 'TODO KARO';
     }
   };
 
   return (
-    <header className="w-full flex items-center justify-between gap-4 px-6 py-4 glass-panel border-b border-borderPurple/45 z-10">
-      {/* Title & Mobile Menu Toggle */}
+    <header className="w-full flex items-center justify-between gap-4 px-6 py-3.5 bg-white border-b border-indigo-50 shadow-sm z-10">
+      {/* Left: Hamburger + Title */}
       <div className="flex items-center gap-3">
-        <button 
+        <button
           onClick={onMenuToggle}
-          className="p-2 rounded-lg hover:bg-gray-800/60 text-gray-400 hover:text-gray-200 md:hidden transition-colors"
-          title="Toggle Menu"
+          className="p-2 rounded-lg hover:bg-indigo-50 text-gray-400 hover:text-indigo-500 md:hidden transition-all"
+          title="Open Menu"
         >
-          <FaBars className="text-lg" />
+          <FaBars className="text-base" />
         </button>
-        <h2 className="text-xl font-bold text-white tracking-wide">
-          {getTitle()}
-        </h2>
+        <div>
+          <h2 className="text-base font-bold text-gray-800 tracking-tight leading-none">
+            {getTitle()}
+          </h2>
+          <p className="text-[10px] text-indigo-500 font-semibold tracking-widest uppercase mt-0.5">
+            TODO KARO
+          </p>
+        </div>
       </div>
 
-      {/* Search Input Box */}
-      <div className="flex-1 max-w-md mx-auto hidden sm:block">
+      {/* Center: Search */}
+      <div className="flex-1 max-w-sm mx-auto hidden sm:block">
         <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
       </div>
 
-      {/* Action Buttons */}
-      <div className="flex items-center gap-3">
-        {/* Theme visual placeholder */}
-        <button 
+      {/* Right: Actions */}
+      <div className="flex items-center gap-2.5">
+        <button
           onClick={onToggleTheme}
-          className="p-2.5 rounded-xl bg-gray-900/40 hover:bg-gray-800/60 text-gray-400 hover:text-indigo-400 transition-all duration-200 border border-gray-800 flex items-center justify-center"
-          title={theme === 'light' ? "Switch to Dark Mode" : "Switch to Light Mode"}
+          className="p-2.5 rounded-xl bg-gray-50 hover:bg-indigo-50 text-gray-400 hover:text-indigo-500 transition-all border border-gray-100 hover:border-indigo-100"
+          title={theme === 'light' ? 'Switch to Dark' : 'Switch to Light'}
         >
-          {theme === 'light' ? <FaSun className="text-base text-yellow-500" /> : <FaMoon className="text-base" />}
+          {theme === 'light'
+            ? <FaSun className="text-sm text-amber-500" />
+            : <FaMoon className="text-sm text-indigo-400" />}
         </button>
 
-        {/* Add Task Button */}
-        <button 
+        <button
           onClick={onAddTaskClick}
-          className="flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-semibold text-sm rounded-xl shadow-lg shadow-indigo-600/15 hover:shadow-indigo-500/25 transition-all duration-200 transform active:scale-95"
+          className="flex items-center gap-2 px-4 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs rounded-xl shadow-md shadow-indigo-200 hover:shadow-indigo-300 transition-all active:scale-95"
         >
-          <FaPlus className="text-xs" />
+          <FaPlus className="text-[10px]" />
           <span>Add Task</span>
         </button>
       </div>
